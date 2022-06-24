@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import React from "react";
 import axios from "axios";
 import Movie from "./components/Movie";
+import Form from "./components/Form";
 // import Alert from "./components/Alert";
 import {
   Grid,
@@ -22,7 +23,6 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 
 function App() {
-  const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [movies, setMovies] = useState([]);
   const cancelRef = useRef();
@@ -43,7 +43,7 @@ function App() {
         Image: data.Poster,
         Status: "Watching",
       };
-      console.log(open);
+
       setMovies([...movies, newMovie]);
     } else {
       onOpen();
@@ -77,28 +77,7 @@ function App() {
         </AlertDialogOverlay>
       </AlertDialog>
 
-      <Flex mr="5" ml="5" mt="5">
-        <Input
-          variant="outline"
-          placeholder="Search for movie"
-          value={input}
-          onChange={(event) => {
-            setInput(event.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSubmit();
-            }
-          }}
-        />
-        <IconButton
-          aria-label="Search database"
-          icon={<SearchIcon />}
-          onClick={() => {
-            handleSubmit();
-          }}
-        />
-      </Flex>
+      <Form handleSubmit={handleSubmit} value={input} change={setInput} />
       <Grid templateColumns="repeat(3,1fr)" gap={8}>
         {movies.map((movie) => {
           return (
