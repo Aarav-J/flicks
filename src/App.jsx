@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import Movie from "./components/Movie";
 import Form from "./components/Form";
+import { nanoid } from "nanoid";
 // import Alert from "./components/Alert";
 import {
   Grid,
@@ -36,6 +37,7 @@ function App() {
     console.log(data);
     if (data.Response !== "False") {
       const newMovie = {
+        Id: nanoid(),
         Title: data.Title,
         Year: data.Year,
         Runtime: data.Runtime,
@@ -51,9 +53,29 @@ function App() {
     setInput("");
   };
   const remove = (movie) => {
-    const newMovies = movies.filter((film) => film.Title !== movie.Title);
+    const newMovies = movies.filter((film) => film.Id !== movie.Id);
     setMovies(newMovies);
   };
+
+  const done = (movie) => {
+    let status = false;
+    if (movie.Status === "Watching") {
+      status = false;
+    } else {
+      status = true;
+    }
+    const newMovies = movies.map((film) => {
+      if (film.Id === movie.Id) {
+        return status
+          ? { ...film, Status: "Watching" }
+          : { ...film, Status: "Watched" };
+      }
+      return film;
+    });
+    console.log(newMovies);
+    setMovies(newMovies);
+  };
+
   return (
     <div>
       <AlertDialog
@@ -85,9 +107,12 @@ function App() {
 
       <Grid templateColumns="repeat(3,1fr)" gap={8}>
         {movies.map((movie, i) => {
+          {
+            console.log("blah", movie);
+          }
           return (
             <GridItem mt="5" ms="5" me="5">
-              <Movie key={i} movie={movie} remove={remove} />
+              <Movie key={i} movie={movie} remove={remove} done={done} />
             </GridItem>
           );
         })}

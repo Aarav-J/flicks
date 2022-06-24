@@ -7,9 +7,13 @@ import {
   IconButton,
   ButtonGroup,
 } from "@chakra-ui/react";
-import { DeleteIcon, ViewIcon } from "@chakra-ui/icons";
+import { DeleteIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 // import { StarIcon } from "@chakra-ui/icons";
-const Movie = ({ movie, remove }) => {
+const Movie = ({ movie, remove, done }) => {
+  let status = false;
+  if (movie.Status === "Watched") {
+    status = true;
+  }
   return (
     <Box
       maxW="sm"
@@ -22,7 +26,11 @@ const Movie = ({ movie, remove }) => {
 
       <Box p="6">
         <Box display="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="orange">
+          <Badge
+            borderRadius="full"
+            px="2"
+            colorScheme={status ? "teal" : "orange"}
+          >
             {movie.Status}
           </Badge>
           <Box
@@ -49,10 +57,10 @@ const Movie = ({ movie, remove }) => {
             {/* <Spacer /> */}
             <IconButton
               aria-label="Search database"
-              icon={<ViewIcon />}
-              colorScheme="teal"
+              icon={status ? <ViewOffIcon /> : <ViewIcon />}
+              colorScheme={status ? "orange" : "teal"}
               onClick={() => {
-                console.log("done");
+                done(movie);
               }}
             />
           </ButtonGroup>
