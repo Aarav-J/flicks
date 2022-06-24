@@ -1,7 +1,15 @@
 // import Card from "react-bootstrap/Card";
-import { Badge, Box, Image } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Image,
+  Spacer,
+  IconButton,
+  ButtonGroup,
+} from "@chakra-ui/react";
+import { DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 // import { StarIcon } from "@chakra-ui/icons";
-const Movie = (movie) => {
+const Movie = ({ movie, remove }) => {
   return (
     <Box
       maxW="sm"
@@ -9,14 +17,13 @@ const Movie = (movie) => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="scroll"
-      as="button"
     >
-      <Image boxSize="100%" src={movie.movie.Image} />
+      <Image boxSize="100%" src={movie.Image} />
 
       <Box p="6">
         <Box display="flex" alignItems="baseline">
           <Badge borderRadius="full" px="2" colorScheme="orange">
-            {movie.movie.Status}
+            {movie.Status}
           </Badge>
           <Box
             color="gray.500"
@@ -26,8 +33,29 @@ const Movie = (movie) => {
             textTransform="uppercase"
             ml="2"
           >
-            {movie.movie.Runtime}
+            {movie.Runtime}
           </Box>
+
+          <Spacer />
+          <ButtonGroup spacing="3" variant="ghost">
+            <IconButton
+              aria-label="Search database"
+              icon={<DeleteIcon />}
+              colorScheme="red"
+              onClick={() => {
+                remove(movie);
+              }}
+            />
+            {/* <Spacer /> */}
+            <IconButton
+              aria-label="Search database"
+              icon={<ViewIcon />}
+              colorScheme="teal"
+              onClick={() => {
+                console.log("done");
+              }}
+            />
+          </ButtonGroup>
         </Box>
 
         <Box
@@ -37,10 +65,10 @@ const Movie = (movie) => {
           lineHeight="tight"
           noOfLines={2}
         >
-          {movie.movie.Title}({movie.movie.Year})
+          {movie.Title}({movie.Year})
         </Box>
 
-        <Box>{movie.movie.Plot}</Box>
+        <Box>{movie.Plot}</Box>
       </Box>
     </Box>
   );

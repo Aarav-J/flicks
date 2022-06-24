@@ -50,6 +50,10 @@ function App() {
     }
     setInput("");
   };
+  const remove = (movie) => {
+    const newMovies = movies.filter((film) => film.Title !== movie.Title);
+    setMovies(newMovies);
+  };
   return (
     <div>
       <AlertDialog
@@ -78,11 +82,12 @@ function App() {
       </AlertDialog>
 
       <Form handleSubmit={handleSubmit} value={input} change={setInput} />
+
       <Grid templateColumns="repeat(3,1fr)" gap={8}>
-        {movies.map((movie) => {
+        {movies.map((movie, i) => {
           return (
             <GridItem mt="5" ms="5" me="5">
-              <Movie movie={movie} />
+              <Movie key={i} movie={movie} remove={remove} />
             </GridItem>
           );
         })}
@@ -90,5 +95,7 @@ function App() {
     </div>
   );
 }
+
+// {handleSubmit: value, value: input, }
 
 export default App;
