@@ -1,8 +1,17 @@
 // import Card from "react-bootstrap/Card";
-import { Badge, Box, Image } from "@chakra-ui/react";
-// import { DeleteIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-// import { StarIcon } from "@chakra-ui/icons";
+import { Badge, Box, Image, Spacer, IconButton } from "@chakra-ui/react";
+import { PlusSquareIcon } from "@chakra-ui/icons";
+import { db } from "../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 const SearchMovie = ({ movie }) => {
+  const navigate = useNavigate();
+  const moviesCollectionRef = collection(db, "movies");
+
+  const add = async (movie) => {
+    await addDoc(moviesCollectionRef, movie);
+    navigate("/");
+  };
   return (
     <Box
       maxW="sm"
@@ -28,6 +37,17 @@ const SearchMovie = ({ movie }) => {
           >
             {movie.Runtime}
           </Box>
+
+          <Spacer />
+          <IconButton
+            aria-label="Add"
+            icon={<PlusSquareIcon />}
+            variant="ghost"
+            colorScheme="green"
+            onClick={() => {
+              add(movie);
+            }}
+          />
         </Box>
 
         <Box

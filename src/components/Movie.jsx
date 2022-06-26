@@ -47,7 +47,7 @@ const Movie = ({ movie, remove, done }) => {
           <Spacer />
           <ButtonGroup spacing="3" variant="ghost">
             <IconButton
-              aria-label="Search database"
+              aria-label="Delete entry"
               icon={<DeleteIcon />}
               colorScheme="red"
               onClick={() => {
@@ -56,7 +56,7 @@ const Movie = ({ movie, remove, done }) => {
             />
             {/* <Spacer /> */}
             <IconButton
-              aria-label="Search database"
+              aria-label="Change status"
               icon={status ? <ViewOffIcon /> : <ViewIcon />}
               colorScheme={status ? "orange" : "teal"}
               onClick={() => {
