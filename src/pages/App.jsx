@@ -1,11 +1,20 @@
 import "../App.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import axios from "axios";
 import Movie from "../components/Movie";
 import Form from "../components/Form";
 import Alert from "../components/Alert";
 
+import { db } from "../firebase-config";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { nanoid } from "nanoid";
 // import Alert from "./components/Alert";
 import { Grid, GridItem, useDisclosure, AlertDialog } from "@chakra-ui/react";
@@ -15,6 +24,7 @@ function App() {
   const [change, setChange] = useState(false);
   const [movies, setMovies] = useState([]);
   const cancelRef = useRef();
+  const moviesCollectionRef = collection(db, "movies");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleSubmit = async () => {
     const url = `http://www.omdbapi.com/`;
@@ -31,38 +41,43 @@ function App() {
         Runtime: data.Runtime,
         Plot: data.Plot,
         Image: data.Poster,
+        Type: data.Type,
         Status: "Watching",
       };
-
-      setMovies([...movies, newMovie]);
+      await addDoc(moviesCollectionRef, newMovie);
+      setChange(!change);
     } else {
       onOpen();
     }
     setInput("");
   };
-  const remove = (movie) => {
-    const newMovies = movies.filter((film) => film.Id !== movie.Id);
-    setMovies(newMovies);
+  const remove = async (movie) => {
+    const del_movies = doc(db, "movies", movie.id);
+    await deleteDoc(del_movies);
+    setChange(!change);
   };
 
-  const done = (movie) => {
+  const done = async (movie) => {
     let status = false;
-    if (movie.Status === "Watching") {
-      status = false;
-    } else {
+
+    if (movie.Status !== "Watching") {
       status = true;
     }
-    const newMovies = movies.map((film) => {
-      if (film.Id === movie.Id) {
-        return status
-          ? { ...film, Status: "Watching" }
-          : { ...film, Status: "Watched" };
-      }
-      return film;
-    });
-    console.log(newMovies);
-    setMovies(newMovies);
+    const change_movie = doc(db, "movies", movie.id);
+    const new_field = { Status: status ? "Watching" : "Watched" };
+    await updateDoc(change_movie, new_field);
+    setChange(!change);
   };
+
+  const getMovies = async () => {
+    const data = await getDocs(moviesCollectionRef);
+
+    setMovies(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
+  useEffect(() => {
+    console.log("mounted");
+    getMovies();
+  }, [change]);
 
   return (
     <div>

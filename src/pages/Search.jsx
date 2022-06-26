@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Form from "../components/Form";
 import SearchMovie from "../components/SearchMovie";
 import axios from "axios";
+import { nanoid } from "nanoid";
 import Alert from "../components/Alert";
 import { Grid, GridItem, useDisclosure, AlertDialog } from "@chakra-ui/react";
 const Search = () => {
@@ -20,12 +21,14 @@ const Search = () => {
         const queryString = { apikey: "7f921e04", t: movie.Title };
         const response = await axios.get(url, { params: queryString });
         return {
+          Id: nanoid(),
           Title: movie.Title,
           Runtime: response.data.Runtime,
           Year: movie.Year,
           Type: movie.Type,
           Image: movie.Poster,
           Plot: response.data.Plot,
+          Status: "Watching",
         };
       });
       Promise.all(n_movies).then((films) => {
