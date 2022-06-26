@@ -24,11 +24,13 @@ function App() {
   const [change, setChange] = useState(false);
   const [movies, setMovies] = useState([]);
   const cancelRef = useRef();
+
   const moviesCollectionRef = collection(db, "movies");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const handleSubmit = async () => {
     const url = `http://www.omdbapi.com/`;
-    const queryString = { apikey: "7f921e04", t: input };
+    const queryString = { apikey: process.env.REACT_APP_API_KEY, t: input };
     const response = await axios.get(url, { params: queryString });
 
     const data = response.data;
