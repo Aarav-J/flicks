@@ -1,24 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import "./index.css"
-import App from './pages/App';
-import Search from './pages/Search'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./pages/App";
+import Search from "./pages/Search";
+import Watched from "./pages/Watched"
+import Nav from "./components/Nav"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
-  <React.StrictMode>
-
-   <Router>
-      <Routes>
-        <Route path ="/" element={<App />} />
-        <Route path ="/search" element={<Search />} />
-      </Routes>
-
-   </Router>
-  </React.StrictMode>
+    <React.StrictMode>
+      <Nav />
+      <Router>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/watched" element={<Watched />} />
+        </Routes>
+      </Router>
+    </React.StrictMode>
   </ChakraProvider>
 );
 

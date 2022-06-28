@@ -16,6 +16,7 @@ const Search = () => {
     const response = await axios.get(url, { params: queryString });
 
     const data = response.data;
+    console.log(data);
     if (data.Response !== "False") {
       const n_movies = data.Search.map(async (movie) => {
         const queryString = { apikey: "7f921e04", t: movie.Title };

@@ -21,6 +21,7 @@ const Movie = ({ movie, remove, done }) => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="scroll"
+      // border="0px"
     >
       <Image boxSize="100%" src={movie.Image} />
 

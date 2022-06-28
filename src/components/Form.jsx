@@ -1,4 +1,4 @@
-import { Flex, Input, IconButton } from "@chakra-ui/react";
+import { Flex, Input, IconButton, Spacer } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 const Form = ({ handleSubmit, change, value }) => {
   return (
@@ -16,9 +16,11 @@ const Form = ({ handleSubmit, change, value }) => {
           }
         }}
       />
+      <Spacer />
       <IconButton
         aria-label="Search database"
         icon={<SearchIcon />}
+        colorScheme="purple"
         onClick={() => {
           handleSubmit();
         }}

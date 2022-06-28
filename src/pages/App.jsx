@@ -7,6 +7,7 @@ import Form from "../components/Form";
 import Alert from "../components/Alert";
 
 import { db } from "../firebase-config";
+
 import {
   collection,
   getDocs,
@@ -22,8 +23,22 @@ import { Grid, GridItem, useDisclosure, AlertDialog } from "@chakra-ui/react";
 function App() {
   const [input, setInput] = useState("");
   const [change, setChange] = useState(false);
+
   const [movies, setMovies] = useState([]);
+  const [width, setWidth] = useState(window.innerWidth);
   const cancelRef = useRef();
+
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= 700;
 
   const moviesCollectionRef = collection(db, "movies");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -97,13 +112,20 @@ function App() {
 
       <Form handleSubmit={handleSubmit} value={input} change={setInput} />
 
-      <Grid templateColumns="repeat(3,1fr)" gap={8}>
+      <Grid
+        templateColumns={isMobile ? "repeat(1,1fr)" : "repeat(3,1fr)"}
+        gap={8}
+      >
         {movies.map((movie, i) => {
-          return (
-            <GridItem mt="5" ms="5" me="5">
-              <Movie key={i} movie={movie} remove={remove} done={done} />
-            </GridItem>
-          );
+          if (movie.Status === "Watching") {
+            return (
+              <GridItem mt="5" ms="5" me="5">
+                <Movie key={i} movie={movie} remove={remove} done={done} />
+              </GridItem>
+            );
+          } else {
+            return null;
+          }
         })}
       </Grid>
     </div>
