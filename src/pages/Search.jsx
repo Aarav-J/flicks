@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Form from "../components/Form";
 import SearchMovie from "../components/SearchMovie";
 import axios from "axios";
@@ -10,6 +10,19 @@ const Search = () => {
   const [value, setValue] = useState("");
   const cancelRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [width, setWidth] = useState(window.innerWidth);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= 700;
+
   const handleSubmit = async () => {
     const url = `http://www.omdbapi.com/`;
     const queryString = { apikey: "7f921e04", s: value };
@@ -19,7 +32,10 @@ const Search = () => {
     console.log(data);
     if (data.Response !== "False") {
       const n_movies = data.Search.map(async (movie) => {
-        const queryString = { apikey: "7f921e04", t: movie.Title };
+        const queryString = {
+          apikey: process.env.REACT_APP_API_KEY,
+          t: movie.Title,
+        };
         const response = await axios.get(url, { params: queryString });
         return {
           Id: nanoid(),
@@ -56,7 +72,10 @@ const Search = () => {
         />
       </AlertDialog>
       <Form handleSubmit={handleSubmit} value={value} change={setValue} />
-      <Grid templateColumns="repeat(3,1fr)" gap={8}>
+      <Grid
+        templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3, 1fr)"}
+        gap={8}
+      >
         {movies.map((movie, i) => {
           return (
             <GridItem key={i} mt="5" ms="5" me="5">

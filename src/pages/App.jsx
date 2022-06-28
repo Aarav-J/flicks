@@ -25,9 +25,9 @@ function App() {
   const [change, setChange] = useState(false);
 
   const [movies, setMovies] = useState([]);
-  const [width, setWidth] = useState(window.innerWidth);
-  const cancelRef = useRef();
 
+  const cancelRef = useRef();
+  const [width, setWidth] = useState(window.innerWidth);
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
   };
