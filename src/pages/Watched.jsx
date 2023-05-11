@@ -1,5 +1,6 @@
 import { db } from "../firebase-config";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import {
   collection,
   getDocs,
@@ -19,6 +20,31 @@ const Watched = () => {
   const [value, setValue] = useState("");
   const [change, setChange] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
+
+  const deleted = () =>
+    toast.success("Deleted the movie", {
+      icon: "🗑️",
+      id: "delete",
+      style: {
+        borderRadius: "50px",
+        color: "black",
+      },
+      iconTheme: {
+        primary: "red",
+      },
+    });
+  const finished = () =>
+    toast.success("Added to watchlist", {
+      id: "undone",
+      style: {
+        borderRadius: "50px",
+        color: "black",
+      },
+      iconTheme: {
+        primary: "green",
+      },
+    });
+
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
   };
@@ -59,12 +85,14 @@ const Watched = () => {
     const del_movies = doc(db, "movies", movie.id);
     await deleteDoc(del_movies);
     setChange(!change);
+    deleted();
   };
   const undone = async (movie) => {
     const change_movie = doc(db, "movies", movie.id);
     const new_field = { Status: "Watching" };
     await updateDoc(change_movie, new_field);
     setChange(!change);
+    finished();
   };
   useEffect(() => {
     const getMovies = async () => {
@@ -84,6 +112,7 @@ const Watched = () => {
   console.log(isMobile);
   return (
     <>
+      <Toaster position="top-center" />
       <Form handleSubmit={handleSubmit} value={value} change={setValue} />
       <Grid
         templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3,1fr)"}

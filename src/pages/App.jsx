@@ -5,7 +5,7 @@ import axios from "axios";
 import Movie from "../components/Movie";
 import Form from "../components/Form";
 import Alert from "../components/Alert";
-
+import toast, { Toaster } from "react-hot-toast";
 import { db } from "../firebase-config";
 
 import {
@@ -21,6 +21,29 @@ import { nanoid } from "nanoid";
 import { Grid, GridItem, useDisclosure, AlertDialog } from "@chakra-ui/react";
 
 function App() {
+  const deleted = () =>
+    toast.success("Deleted the movie", {
+      icon: "🗑️",
+      id: "delete",
+      style: {
+        borderRadius: "50px",
+        color: "black",
+      },
+      iconTheme: {
+        primary: "red",
+      },
+    });
+  const finished = () =>
+    toast.success("Finished the movie", {
+      id: "done",
+      style: {
+        borderRadius: "50px",
+        color: "black",
+      },
+      iconTheme: {
+        primary: "green",
+      },
+    });
   const [input, setInput] = useState("");
   const [change, setChange] = useState(false);
 
@@ -72,6 +95,7 @@ function App() {
     const del_movies = doc(db, "movies", movie.id);
     await deleteDoc(del_movies);
     setChange(!change);
+    deleted();
   };
 
   const done = async (movie) => {
@@ -84,6 +108,7 @@ function App() {
     const new_field = { Status: status ? "Watching" : "Watched" };
     await updateDoc(change_movie, new_field);
     setChange(!change);
+    finished();
   };
 
   const getMovies = async () => {
@@ -98,6 +123,7 @@ function App() {
 
   return (
     <div>
+      <Toaster position="top-center" />
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}

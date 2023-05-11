@@ -3,11 +3,12 @@ import { Badge, Box, Image, Spacer, IconButton } from "@chakra-ui/react";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import { db } from "../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 const SearchMovie = ({ movie }) => {
   const navigate = useNavigate();
   const moviesCollectionRef = collection(db, "movies");
-
+  const added = () => toast("Added to watchlist.");
   const add = async (movie) => {
     await addDoc(moviesCollectionRef, movie);
     navigate("/");
@@ -20,6 +21,7 @@ const SearchMovie = ({ movie }) => {
       borderRadius="lg"
       overflow="scroll"
     >
+      <Toaster position="top-center" />
       <Image boxSize="100%" src={movie.Image} alt={movie.Title} />
 
       <Box p="6">
@@ -46,6 +48,7 @@ const SearchMovie = ({ movie }) => {
             colorScheme="green"
             onClick={() => {
               add(movie);
+              added();
             }}
           />
         </Box>

@@ -6,10 +6,16 @@ import {
   Spacer,
   IconButton,
   ButtonGroup,
+  useDisclosure,
+  Button,
+  Slide,
 } from "@chakra-ui/react";
 import { DeleteIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
+import { deleteDoc } from "firebase/firestore";
 // import { StarIcon } from "@chakra-ui/icons";
 const Movie = ({ movie, remove, done }) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
   let status = false;
   if (movie.Status === "Watched") {
     status = true;
@@ -21,10 +27,10 @@ const Movie = ({ movie, remove, done }) => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="scroll"
+
       // border="0px"
     >
       <Image boxSize="100%" src={movie.Image} />
-
       <Box p="6">
         <Box display="flex" alignItems="baseline">
           <Badge
@@ -46,6 +52,7 @@ const Movie = ({ movie, remove, done }) => {
           </Box>
 
           <Spacer />
+
           <ButtonGroup spacing="3" variant="ghost">
             <IconButton
               aria-label="Delete entry"
@@ -79,6 +86,21 @@ const Movie = ({ movie, remove, done }) => {
 
         <Box>{movie.Plot}</Box>
       </Box>
+      <>
+        <Slide direction="bottom" in={isOpen} style={{ zIndex: 10 }}>
+          <Box
+            p="40px"
+            color="white"
+            mt="4"
+            bg="teal.500"
+            rounded="md"
+            shadow="md"
+          >
+            <Button onClick={onClose}>X</Button>
+            Your MOther
+          </Box>
+        </Slide>
+      </>
     </Box>
   );
 };
