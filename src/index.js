@@ -15,9 +15,9 @@ root.render(
       <Nav />
       <Router>
         <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/watched" element={<Watched />} />
+          <Route path="/flicks" element={<App />} />
+          <Route path="/flicks/search" element={<Search />} />
+          <Route path="/flicks/watched" element={<Watched />} />
         </Routes>
       </Router>
     </React.StrictMode>
