@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/flicks/static/css/main.29808381.css",
+    "main.js": "/flicks/static/js/main.5ebbf277.js",
+    "index.html": "/flicks/index.html",
+    "main.29808381.css.map": "/flicks/static/css/main.29808381.css.map",
+    "main.5ebbf277.js.map": "/flicks/static/js/main.5ebbf277.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.29808381.css",
+    "static/js/main.5ebbf277.js"
+  ]
+}
