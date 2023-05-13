@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/flicks/static/css/main.29808381.css",
-    "main.js": "/flicks/static/js/main.cfa736cd.js",
+    "main.js": "/flicks/static/js/main.f1ac6aa8.js",
     "index.html": "/flicks/index.html",
     "main.29808381.css.map": "/flicks/static/css/main.29808381.css.map",
-    "main.cfa736cd.js.map": "/flicks/static/js/main.cfa736cd.js.map"
+    "main.f1ac6aa8.js.map": "/flicks/static/js/main.f1ac6aa8.js.map"
   },
   "entrypoints": [
     "static/css/main.29808381.css",
-    "static/js/main.cfa736cd.js"
+    "static/js/main.f1ac6aa8.js"
   ]
 }
