@@ -5,7 +5,12 @@ import App from "./pages/App";
 import Search from "./pages/Search";
 import Watched from "./pages/Watched";
 import Nav from "./components/Nav";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  HashRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -13,13 +18,14 @@ root.render(
   <ChakraProvider>
     <React.StrictMode>
       <Nav />
-      <Router>
+
+      <HashRouter basename="aarav-j.github.io/">
         <Routes>
-          <Route path="/flicks" element={<App />} />
-          <Route path="/flicks/search" element={<Search />} />
-          <Route path="/flicks/watched" element={<Watched />} />
+          <Route path="/" element={<App />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/watched" element={<Watched />} />
         </Routes>
-      </Router>
+      </HashRouter>
     </React.StrictMode>
   </ChakraProvider>
 );
