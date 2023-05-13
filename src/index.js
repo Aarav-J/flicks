@@ -19,7 +19,7 @@ root.render(
     <React.StrictMode>
       <Nav />
 
-      <HashRouter basename="aarav-j.github.io/flicks">
+      <HashRouter basename="https://aarav-j.github.io/flicks">
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/search" element={<Search />} />
